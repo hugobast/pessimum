@@ -1,5 +1,5 @@
 from mock import Mock
-from unittest import TestCase
+from unittest import TestCase, skip
 from pessimum.pessimum import Pessimum
 from pessimum.utils.lazy import lazy_property
 
@@ -33,6 +33,7 @@ class TestPessimum(TestCase):
         self.pessimum.configure(options, Mock(name="conf"))
         self.pessimum.enabled = options.slow_report
 
+    @skip("pending")
     def test_before_and_after_test_registers_test_with_running_time(self):
         test = Mock(name="test")
         self.pessimum.before_test(test)
