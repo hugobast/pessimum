@@ -13,8 +13,9 @@ class TestPessimum(TestCase):
     def test_default_off(self):
         self.assertFalse(self.pessimum.enabled)
 
-    def test_has_a_report_hook(self):
-        self.pessimum.report(Mock(name="stream"))
+    def test_has_a_finalize_hook(self):
+        self.pessimum.set_output_stream(Mock(name="stream"))
+        self.pessimum.finalize(Mock(name="result"))
 
     def test_has_option_to_enable_plugin(self):
         parser = Mock(name="parser")
@@ -33,12 +34,9 @@ class TestPessimum(TestCase):
         self.pessimum.configure(options, Mock(name="conf"))
         self.pessimum.enabled = options.slow_report
 
-    @skip("pending")
     def test_before_and_after_test_registers_test_with_running_time(self):
         test = Mock(name="test")
         self.pessimum.before_test(test)
         self.pessimum.after_test(test)
 
-        self.assertEqual(
-            [(test, 0)], self.pessimum.times
-        )
+        self.assertEqual(1, len(self.pessimum.times))
