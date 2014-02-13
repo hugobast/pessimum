@@ -1,10 +1,12 @@
 from .utils.shims import PluginShim
 from .durations_report import DurationsReport
-from unittest.test.test_case import Test
+from .print_durations import PrintDurations
+
 
 class Pessimum(PluginShim):
     def __init__(self, durations_report=DurationsReport):
         self.stream = None
+        self.print_durations = None
         self.durations_report = durations_report()
         super(Pessimum, self).__init__()
 
@@ -15,17 +17,14 @@ class Pessimum(PluginShim):
         self.durations_report.end(test)
 
     def set_output_stream(self, stream):
-        self.stream = stream
+        self.print_durations = PrintDurations(
+            stream, self.durations_report
+        )
 
     def finalize(self, result):
-        self.stream.write("Slowness report:\n\n")
-        for test in self.times:
-            self.stream.write("   ")
-            self.stream.write("{0:10.3f} for ".format(test.duration))
-            self.stream.write(unicode(test.reference))
-
-            self.stream.write("\n")
-        self.stream.write("\n")
+        self.print_durations.print_header()
+        self.print_durations.print_body(10)
+        self.print_durations.write_line()
 
     def options(self, parser, env):
         parser.add_option(
