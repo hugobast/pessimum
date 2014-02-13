@@ -8,9 +8,10 @@ setup(
     author="Hugo Bastien",
     author_email="hugobast@gmail.com",
     url="https://github.com/hugobast/pessimum.git",
-    version="0.0.1",
+    version="0.0.2",
     packages=[
-        "pessimum"
+        "pessimum",
+        "pessimum/utils"
     ],
     tests_require=["mock"],
     install_requires=[
