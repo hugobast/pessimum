@@ -1,6 +1,5 @@
 from time import time
 from unittest import TestCase
-from unittest.test.test_case import Test
 from mock import Mock, MagicMock
 from pessimum.print_durations import PrintDurations
 from pessimum.durations_report import DurationsReport
@@ -40,8 +39,8 @@ class TestPrintDurations(TestCase):
         )
 
     def make_test(self, offset=1):
-        test_case = MagicMock(Test)
-        test_case.__str__.return_value = "Test with offset: {0}".format(offset)
+        test_case = MagicMock(name="Test")
+        test_case.__unicode__.return_value = "Test with offset: {0}".format(offset)
 
         test = DurationsReport.Test(test_case )
         test.start_time = time()
